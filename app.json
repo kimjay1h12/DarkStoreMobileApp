@@ -1,0 +1,57 @@
+{
+  "expo": {
+    "name": "darkstore",
+    "slug": "darkstore",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "proxy": "http://localhost:8000",
+    "splash": {
+      "image": "./assets/img/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#fff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kimjay.darkstore",
+      "config": {
+        "googleMapsApiKey": "AIzaSyCHfFLvo3UmKM7tfeiul1z3N2gGsoijkPQ",
+        "googleServicesFile": "./GoogleService-Info.plist"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.kimjay.darkstore",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCHfFLvo3UmKM7tfeiul1z3N2gGsoijkPQ"
+        },
+        "googleServicesFile": "./google-services.json"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "@react-native-google-signin/google-signin"
+    ],
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/f46b9f73-f107-4abe-9d48-f4ffe75f6b42"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f46b9f73-f107-4abe-9d48-f4ffe75f6b42"
+      }
+    }
+  }
+}

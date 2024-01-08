@@ -21,6 +21,7 @@ import { getCart } from "../context/actions/cart";
 import { getFavourite, getOrders } from "../context/actions/orders";
 import { GetAllProducts, GetAllPromotions } from "../context/actions/products";
 import { HOME_SCREEN } from "./routes";
+import Orders from "../../screens/tabs/Orders";
 
 const Tabs = createBottomTabNavigator();
 
@@ -126,7 +127,7 @@ getCart(cartDispatch)
                       justifyContent: "center",
                     }}
                   >
-                    <Typography color="light">
+                    <Typography style={{color:"#fff"}}>
                       {cartState.data?.cartData?.length}
                     </Typography>
                   </View>
@@ -136,13 +137,13 @@ getCart(cartDispatch)
           }}
         />
         <Tabs.Screen
-          name={"Favourite"}
-          component={Favourite}
+          name={"My Orders"}
+          component={Orders}
           options={{
             headerShown: false,
             tabBarIcon: (props) => (
-              <MaterialIcons
-                name="favorite-outline"
+              <Ionicons
+                name="reorder-three-outline"
                 size={props.size}
                 color={props.color}
               />

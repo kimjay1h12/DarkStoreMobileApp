@@ -2,10 +2,10 @@
   "expo": {
     "name": "darkstore",
     "slug": "darkstore",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "proxy": "http://localhost:8000",
     "splash": {
       "image": "./assets/img/splash.png",
@@ -29,6 +29,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.kimjay.darkstore",
+      "versionCode":2,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyCHfFLvo3UmKM7tfeiul1z3N2gGsoijkPQ"
@@ -45,12 +46,9 @@
     "runtimeVersion": {
       "policy": "sdkVersion"
     },
-    "updates": {
-      "url": "https://u.expo.dev/f46b9f73-f107-4abe-9d48-f4ffe75f6b42"
-    },
     "extra": {
       "eas": {
-        "projectId": "f46b9f73-f107-4abe-9d48-f4ffe75f6b42"
+        "projectId": "9a5048a3-652b-4fba-b9f3-0bc95a168e2a"
       }
     }
   }

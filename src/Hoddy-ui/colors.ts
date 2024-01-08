@@ -5,9 +5,9 @@ import { GLobalContext } from "../context";
 const lightColors = {
   white: {
     1: "#f7f7f7",
-    2: "#f7f7f7",
+    2: "#ffff",
     3: "#eee",
-    4: "#ddd",
+    4: "#e7e7e7",
     5: "#bbb",
     6:"#FFFEFE33",
     7:"#B300EECC"

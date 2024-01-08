@@ -125,7 +125,7 @@ const Button: React.FC<ButtonProps> = ({
           : colors[color].main,
       borderRadius: rounded ? 30 : 10,
       elevation: variant === "text" ? 0 : elevation,
-      paddingVertical: size === "small" ? 7 : "13@ms",
+      paddingVertical: size === "small" ? 7 : "10@ms",
       paddingHorizontal: size === "small" ? "8@ms" : "18@ms",
       borderColor: colors[color].main,
       borderWidth: variant === "outlined" ? 1 : 0,

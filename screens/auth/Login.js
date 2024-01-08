@@ -41,6 +41,59 @@ function Login({ navigation }) {
     }
     setLoading(false);
   };
+  const styles = ScaledSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: "#000",
+    },
+  
+   
+  
+    textField: {
+      width: "48%",
+  
+      color: "#fff",
+    },
+  
+    container: {
+      marginTop: "50@vs",
+    },
+    end: {
+  
+  // position:"absolute",
+  // bottom:0,
+  // width:"100%",
+  // height:"100%",
+  // alignItems:"center",
+  // justifyContent:"center",
+  // color:"#000"
+    },
+    content: {
+      flex: 1,
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+      backgroundColor: colors.white[4],
+      marginTop: 10,
+      paddingTop:30,
+      padding: "15@s",
+      minHeight:"100%"
+    },
+    icon: {
+      padding: 15,
+      backgroundColor:colors.white[4],
+      borderRadius: 100,
+      width: 60,
+      height: 60,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    row: {
+      flex: 0,
+      alignItems: "center",
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+  });
   return (
     <View style={styles.root}>
       <Header
@@ -55,7 +108,7 @@ function Login({ navigation }) {
               style={{marginLeft:5}}
                 name="arrow-back-ios"
                 size={24}
-                color={colors.primary.main}
+                color={colors.dark.main}
               />
             </TouchableOpacity>
           }
@@ -180,57 +233,5 @@ function Login({ navigation }) {
     </View>
   );
 }
-const styles = ScaledSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: "#000",
-  },
 
- 
-
-  textField: {
-    width: "48%",
-
-    color: "#fff",
-  },
-
-  container: {
-    marginTop: "50@vs",
-  },
-  end: {
-
-// position:"absolute",
-// bottom:0,
-// width:"100%",
-// height:"100%",
-// alignItems:"center",
-// justifyContent:"center",
-// color:"#000"
-  },
-  content: {
-    flex: 1,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    backgroundColor: "#fff",
-    marginTop: 10,
-    paddingTop:30,
-    padding: "15@s",
-    minHeight:"100%"
-  },
-  icon: {
-    padding: 15,
-    backgroundColor: "#e7e7e7",
-    borderRadius: 100,
-    width: 60,
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  row: {
-    flex: 0,
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-});
 export default Login;

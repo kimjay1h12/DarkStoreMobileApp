@@ -64,6 +64,112 @@ function Signup({ navigation }) {
     const error = validatePassword(formData.password);
     setPasswordError(error);
   }, [formData.password]);
+  const styles = ScaledSheet.create({
+    root: {
+      flex: 1,
+   
+      backgroundColor: "#000",
+    },
+    welcomeimage: {
+      height: "400@vs",
+      resizeMode: "contain",
+    },
+    icon: {
+      height: 35,
+      width: 35,
+      resizeMode: "contain",
+    },
+    
+    step1: {
+      flex: 1,
+  
+    },
+    checkbox: {
+      borderRadius: 10,
+      height: "50@vs",
+      padding: "10@vs",
+      borderWidth: 0.7,
+      width: "100%",
+      flex: 0,
+      alignItems: "center",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginBottom: "20@s",
+    },
+    content: {
+      flex: 1,
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+      backgroundColor: colors.white[2],
+      marginTop: 10,
+      paddingTop:30,
+      padding: "15@s",
+      minHeight:"100%"
+    },
+    icon: {
+      padding: 15,
+      backgroundColor:colors.white[4],
+      borderRadius: 100,
+      width: 60,
+      height: 60,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    container2: {
+      padding: "20@s",
+      marginTop: "6@s",
+      flex: 0,
+      alignItems: "center",
+      flexDirection: "column",
+    },
+  
+    step2: {
+      flex: 1,
+    },
+  
+    image: {
+      width: "100%",
+      height: "200@vs",
+      resizeMode: "contain",
+    },
+    end: {
+      marginTop: "20@s",
+      textAlign: "center",
+    },
+    action: {
+      marginTop:20
+    },
+    2: {
+      marginTop: "50@vs",
+    },
+    textField: {
+      width: "48%",
+  
+      color: "#fff",
+    },
+    header: {
+      padding: "10@s",
+      flex: 0,
+      flexDirection: "row",
+      justifyContent: "space-between", // This pushes the left object to the left and the centered object to the center
+      alignItems: "center",
+    },
+    container: {
+      marginTop: "50@vs",
+    },
+    checkboxLeft: {
+      flex: 0,
+      alignItems: "center",
+      flexDirection: "row",
+      gap: 10,
+    },
+    row: {
+      flex: 0,
+      alignItems: "center",
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+  });
   return (
     <View style={styles.root}>
 
@@ -80,7 +186,7 @@ function Signup({ navigation }) {
               style={{marginLeft:5}}
                 name="arrow-back-ios"
                 size={24}
-                color={colors.primary.main}
+                color={colors.dark.main}
               />
             </TouchableOpacity>
           }
@@ -229,110 +335,5 @@ function Signup({ navigation }) {
     </View>
   );
 }
-const styles = ScaledSheet.create({
-  root: {
-    flex: 1,
- 
-    backgroundColor: "#000",
-  },
-  welcomeimage: {
-    height: "400@vs",
-    resizeMode: "contain",
-  },
-  icon: {
-    height: 35,
-    width: 35,
-    resizeMode: "contain",
-  },
-  
-  step1: {
-    flex: 1,
 
-  },
-  checkbox: {
-    borderRadius: 10,
-    height: "50@vs",
-    padding: "10@vs",
-    borderWidth: 0.7,
-    width: "100%",
-    flex: 0,
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: "20@s",
-  },
-  content: {
-    flex: 1,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    backgroundColor: "#fff",
-    marginTop: 10,
-    paddingTop:30,
-    padding: "15@s",
-    minHeight:"100%"
-  },
-  icon: {
-    padding: 15,
-    backgroundColor: "#e7e7e7",
-    borderRadius: 100,
-    width: 60,
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  container2: {
-    padding: "20@s",
-    marginTop: "6@s",
-    flex: 0,
-    alignItems: "center",
-    flexDirection: "column",
-  },
-
-  step2: {
-    flex: 1,
-  },
-
-  image: {
-    width: "100%",
-    height: "200@vs",
-    resizeMode: "contain",
-  },
-  end: {
-    marginTop: "20@s",
-    textAlign: "center",
-  },
-  action: {
-    marginTop:20
-  },
-  2: {
-    marginTop: "50@vs",
-  },
-  textField: {
-    width: "48%",
-
-    color: "#fff",
-  },
-  header: {
-    padding: "10@s",
-    flex: 0,
-    flexDirection: "row",
-    justifyContent: "space-between", // This pushes the left object to the left and the centered object to the center
-    alignItems: "center",
-  },
-  container: {
-    marginTop: "50@vs",
-  },
-  checkboxLeft: {
-    flex: 0,
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 10,
-  },
-  row: {
-    flex: 0,
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-});
 export default Signup;

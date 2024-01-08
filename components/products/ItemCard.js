@@ -19,6 +19,8 @@ function ItemCard({
   spread,
   size = "small",
 }) {
+  const colors = useColors();
+
   const styles = ScaledSheet.create({
     root: {
       width:"150@s",
@@ -32,7 +34,7 @@ function ItemCard({
       // borderRadius: 6,
     },
     imagecontainer: {
-      backgroundColor: "#eee",
+      backgroundColor: colors.white[4],
       minHeight: "130@vs",
       borderRadius: 20,
       padding: "2@s",
@@ -41,7 +43,6 @@ function ItemCard({
       justifyContent: "space-between",
     },
   });
-  const colors = useColors();
   const [products, setProducts] = useState([])
   const [favorite, setFavorite] = React.useState(false);
   const [addtocart1, setAddtocart1] = React.useState(false);

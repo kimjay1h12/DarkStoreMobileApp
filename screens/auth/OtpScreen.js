@@ -64,6 +64,39 @@ function OtpScreen({navigation}) {
       Alert.alert("OTP Resent");
     }
   };
+  const styles = ScaledSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: "#000",
+    },
+    image: {
+      width: "100%",
+      height: "200@vs",
+      resizeMode: "contain",
+    },
+    container2: {
+      paddingHorizontal: 15,
+    },
+    content: {
+      flex: 1,
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+      backgroundColor: colors.white[2],
+      marginTop: 10,
+      paddingTop:30,
+      padding: "15@s",
+      minHeight:"100%"
+    },
+    icon: {
+      padding: 15,
+      backgroundColor:colors.white[4],
+      borderRadius: 100,
+      width: 60,
+      height: 60,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  });
   return (
     <View style={styles.root}>
    
@@ -79,7 +112,7 @@ function OtpScreen({navigation}) {
               style={{marginLeft:5}}
                 name="arrow-back-ios"
                 size={24}
-                color={colors.primary.main}
+                color={colors.dark.main}
               />
             </TouchableOpacity>
           }
@@ -147,37 +180,5 @@ function OtpScreen({navigation}) {
     </View>
   );
 }
-const styles = ScaledSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: "#000",
-  },
-  image: {
-    width: "100%",
-    height: "200@vs",
-    resizeMode: "contain",
-  },
-  container2: {
-    paddingHorizontal: 15,
-  },
-  content: {
-    flex: 1,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    backgroundColor: "#fff",
-    marginTop: 10,
-    paddingTop:30,
-    padding: "15@s",
-    minHeight:"100%"
-  },
-  icon: {
-    padding: 15,
-    backgroundColor: "#e7e7e7",
-    borderRadius: 100,
-    width: 60,
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
+
 export default OtpScreen;

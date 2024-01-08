@@ -36,8 +36,8 @@ function Addressbook({ navigation }) {
   } = useContext(GLobalContext);
 
   return (
-    <View style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 ,backgroundColor:"#000"}}>
+   
         <Header
           left={
             <TouchableOpacity
@@ -114,7 +114,7 @@ function Addressbook({ navigation }) {
             />
           </View>
         )}
-      </SafeAreaView>
+ 
       {data?.address?.length > 0 && (
         <View style={styles.action}>
           <Button

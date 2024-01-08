@@ -18,31 +18,77 @@ import Row from "../../components/custom/Row";
 import { GLobalContext } from "../../src/context";
 import { CHECKOUT } from "../../src/navigation/routes";
 import { currencyFormatter } from "../../utility";
+import OrderItem from "../../components/orders/OrderItem";
 
 function Orders({ navigation }) {
   const {
     authState,
-    cartState: {
-      data: { cartData, total },
-      loading,
-    },
+    ordersState:{data,loading},
+
   } = React.useContext(GLobalContext);
   const colors = useColors();
-  console.log(cartData);
+  console.log("orders state: ", data.orders)
+  const styles = ScaledSheet.create({
+    root: {},
+    container: {
+      padding: "15@s",
+    },
+    price: {
+      marginTop: 30,
+    },
+    voucher: {
+      marginTop: 20,
+    },
+    end: {
+      position: "absolute",
+      bottom: "70@s",
+      left: 0,
+      right: 0,
+      padding: 15,
+    },
+    content: {
 
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+      backgroundColor:colors.white[2],
+      marginTop: 10,
+      paddingTop: 30,
+      padding: "15@s",
+      minHeight: "100%",
+    },
+    icon: {
+      padding: 15,
+      backgroundColor:colors.white[4],
+      borderRadius: 100,
+      width: 60,
+      height: 60,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    address: {
+      marginTop: 20,
+      backgroundColor: colors.white[4],
+      borderRadius: 10,
+      padding: 12,
+      flexDirection: "row",
+      gap: 10,
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+  });
   return (
     <View style={{ flex: 1, backgroundColor: "#000" }}>
       <Header
+ 
         center={
           <Typography style={{ marginTop: 10 }} variant="h4" fontWeight={600}>
-            {" "}
-            Cart
+           My Orders
           </Typography>
         }
         content={
           <View style={styles.address}>
             <Row gap={10}>
-              <Ionicons name="location-outline" size={25} color={"#000"} />
+              <Ionicons name="location-outline" size={25} color={"#aaa"} />
               <Typography fontWeight={600}>
                 {authState?.data?.location?.description}
               </Typography>
@@ -58,10 +104,10 @@ function Orders({ navigation }) {
       />
 
       {loading && <Spinner fullscreen />}
-      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
-          {cartData?.length > 0 ? (
-            cartData?.map((cur, i) => <ItemCard key={i} {...cur} />)
+      <ScrollView showsVerticalScrollIndicator={false}>
+          {data?.orders?.length > 0 ? (
+            data?.orders?.map((cur, i) => <OrderItem {...cur}  navigation={navigation} index={i} key={i}/>)
           ) : (
             <View
               style={{
@@ -75,69 +121,17 @@ function Orders({ navigation }) {
                 style={{ height: 300, width: 300, resizeMode: "contain" }}
               />
               <Typography gutterBottom={100} fontWeight={700} variant="h4">
-                Oops Empty Cart
+                Oops Empty Orders
               </Typography>
             </View>
           )}
 
-          <View style={styles.end}>
-            <Button
-              disabled={cartData?.length === 0}
-              title={`Checkout   ${currencyFormatter(total)}`}
-              fullWidth
-            />
-          </View>
-        </View>
+          
+       
       </ScrollView>
+        </View>
     </View>
   );
 }
-const styles = ScaledSheet.create({
-  root: {},
-  container: {
-    padding: "15@s",
-  },
-  price: {
-    marginTop: 30,
-  },
-  voucher: {
-    marginTop: 20,
-  },
-  end: {
-    position: "absolute",
-    bottom: "70@s",
-    left: 0,
-    right: 0,
-    padding: 15,
-  },
-  content: {
-    flex: 1,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    backgroundColor: "#fff",
-    marginTop: 10,
-    paddingTop: 30,
-    padding: "15@s",
-    minHeight: "100%",
-  },
-  icon: {
-    padding: 15,
-    backgroundColor: "#e7e7e7",
-    borderRadius: 100,
-    width: 60,
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  address: {
-    marginTop: 20,
-    backgroundColor: "#eee",
-    borderRadius: 10,
-    padding: 12,
-    flexDirection: "row",
-    gap: 10,
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-});
+
 export default Orders;

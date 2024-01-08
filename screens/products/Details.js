@@ -20,6 +20,7 @@ import {
   SafeAreaView,
   Spinner,
   Typography,
+  UIThemeContext,
   useColors,
 } from "../../src/Hoddy-ui";
 import { GLobalContext } from "../../src/context";
@@ -32,6 +33,7 @@ function Details({ navigation, route }) {
   const { productId } = route.params;
   const [selectedSize, setSelectedSize] = useState("");
   const { cartState, cartDispatch } = useContext(GLobalContext);
+  const {themeState:{value}}= useContext(UIThemeContext)
 const [readMore, setReadMore] = useState(250)
   const [activeSlide, setActiveSlide] = React.useState(0);
   const colors = useColors();
@@ -75,7 +77,52 @@ const [readMore, setReadMore] = useState(250)
     setLoading(false);
   };
   const [color, setColor] = useState("");
-
+  const styles = ScaledSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor:value === "light"? "#000":"#000",
+    },
+    image: {
+      height: "300@s",
+      resizeMode: "contain",
+      width: "100%",
+      marginBottom: 20,
+    },
+    icon: {
+      padding: 10,
+      backgroundColor: colors.white[4],
+      borderRadius: 100,
+      width: 60,
+      height: 60,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    header: {
+      marginTop: "35@vs",
+      paddingHorizontal: "15@s",
+  
+      zIndex: 100,
+      position: "absolute",
+    },
+    price:{
+  backgroundColor:colors.white[3],
+  borderRadius:10,
+  padding:15,
+  flexDirection:"row",
+  gap:10,
+  alignItems: "center",
+    },
+    content: {
+      flex: 1,
+      minHeight:"100%",
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+      backgroundColor: colors.white[2],
+      marginTop: 10,
+      paddingTop: 30,
+      padding: "15@s",
+    },
+  });
   return (
     <View style={styles.root}>
       <StatusBar barStyle="light-content" />
@@ -95,7 +142,7 @@ const [readMore, setReadMore] = useState(250)
                           navigation.goBack();
                         }}
                       >
-                        <AntDesign name="arrowleft" size={24} color="#000" />
+                        <AntDesign name="arrowleft" size={24} color={colors.dark.main} />
                       </TouchableOpacity>
                       <TouchableOpacity>
                         <MaterialIcons
@@ -198,7 +245,7 @@ const [readMore, setReadMore] = useState(250)
                 </View>
                 <View>
                   {productDetails?.color?.length > 0 && (
-                    <Text
+                    <Typography
                       style={{
                         marginBottom: 16,
                         marginTop: 16,
@@ -206,7 +253,7 @@ const [readMore, setReadMore] = useState(250)
                       }}
                     >
                       Available Colors
-                    </Text>
+                    </Typography>
                   )}
 
                   <ButtonGroup
@@ -283,50 +330,5 @@ const [readMore, setReadMore] = useState(250)
     </View>
   );
 }
-const styles = ScaledSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: "#000",
-  },
-  image: {
-    height: "300@s",
-    resizeMode: "contain",
-    width: "100%",
-    marginBottom: 20,
-  },
-  icon: {
-    padding: 10,
-    backgroundColor: "#e7e7e7",
-    borderRadius: 100,
-    width: 60,
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  header: {
-    marginTop: "35@vs",
-    paddingHorizontal: "15@s",
 
-    zIndex: 100,
-    position: "absolute",
-  },
-  price:{
-backgroundColor:"#eee",
-borderRadius:10,
-padding:15,
-flexDirection:"row",
-gap:10,
-alignItems: "center",
-  },
-  content: {
-    flex: 1,
-    minHeight:"100%",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    backgroundColor: "#fff",
-    marginTop: 10,
-    paddingTop: 30,
-    padding: "15@s",
-  },
-});
 export default Details;

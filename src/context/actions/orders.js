@@ -2,16 +2,16 @@ import { Alert } from "react-native";
 import client from "../../../api/client";
 import { errorMessage } from "../../../utility";
 
-export const checkout = async (data, dispatch) => {
+export const createOrders = async (data, dispatch) => {
   dispatch({
     type: "LOADING",
   });
   try {
-    const res = (await client.post("/customer/checkout", data)).data;
+    const res = (await client.post("/orders", data)).data;
     getOrders(dispatch);
     return res.data;
   } catch (error) {
-    console.log("Couldn't checkout", errorMessage(error));
+    console.log("Couldn't checkout", error.response);
     Alert.alert(
       "Couldn't checkout",
       error.response?.data?.message || "Something went wrong"
@@ -47,7 +47,7 @@ export const getOrders = async (dispatch) => {
     type: "LOADING",
   });
   try {
-    const res = (await client.get("/customer/orders")).data;
+    const res = (await client.get("/orders")).data;
 
     dispatch({
       type: "FETCHED_DATA",

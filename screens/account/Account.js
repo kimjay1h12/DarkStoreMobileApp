@@ -50,7 +50,7 @@ function Account({ navigation }) {
         <FontAwesome5
           name="user-circle"
           size={24}
-          color={colors.primary.main}
+          color={colors.dark.main}
         />
       ),
       route: MYDETAILS,
@@ -61,7 +61,7 @@ function Account({ navigation }) {
         <Foundation
           name="book-bookmark"
           size={24}
-          color={colors.primary.main}
+          color={colors.dark.main}
         />
       ),
       route: MYORDERS,
@@ -69,7 +69,7 @@ function Account({ navigation }) {
     {
       label: "Notifications",
       icon: (
-        <Entypo name="notification" size={24} color={colors.primary.main} />
+        <Entypo name="notification" size={24} color={colors.dark.main} />
       ),
       route: TABS_NAVIGATOR,
     },
@@ -79,7 +79,7 @@ function Account({ navigation }) {
         <FontAwesome
           name="address-book"
           size={24}
-          color={colors.primary.main}
+          color={colors.dark.main}
         />
       ),
       route: ADDRESSBOOK,
@@ -90,14 +90,14 @@ function Account({ navigation }) {
         <Ionicons
           name="md-shield-checkmark-outline"
           size={24}
-          color={colors.primary.main}
+          color={colors.dark.main}
         />
       ),
       route: PAYMENTDETAILS,
     },
     {
       label: "Change password",
-      icon: <AntDesign name="lock" size={24} color={colors.primary.main} />,
+      icon: <AntDesign name="lock" size={24} color={colors.dark.main} />,
       route: CHANGEPASSWORD,
     },
   ];
@@ -109,6 +109,60 @@ function Account({ navigation }) {
     const res = await signoutHandler(authDispatch);
     setLoading(false);
   };
+  const styles = ScaledSheet.create({
+    root: {
+      backgroundColor:"#000",
+      flex:1
+    },
+    header: {
+      backgroundColor: "#fff",
+      minHeight: "100@vs",
+      marginTop: "-3%",
+  
+      padding: "15@s",
+      paddingTop: "36@vs",
+      borderBottomLeftRadius: 30,
+      borderBottomRightRadius: 30,
+    },
+    search:{   backgroundColor: "#fff",  marginTop: "-3%",
+    padding: "15@s",
+    paddingTop: "15@vs",
+    borderBottomLeftRadius: 30,
+      borderBottomRightRadius: 30,},
+      content: {
+        flex: 1,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        backgroundColor: colors.white[2],
+        marginTop: 10,
+        paddingTop:30,
+        padding: "15@s",
+        minHeight:"100%"
+      },
+    outlined: {
+      borderWidth: 1,
+      padding: 8,
+      borderRadius: 8,
+      marginTop: 20,
+    },
+    body: {
+      padding: "15@s",
+      marginTop: "10@s",
+    },
+    container: {
+      padding: "13@s",
+      borderRadius: 10,
+    },
+    icon: {
+      padding: 15,
+      backgroundColor: colors.white[4],
+      borderRadius: 100,
+      width: 60,
+      height: 60,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  });
   return (
     <View style={styles.root}>
       {loading && <Spinner fullscreen />}
@@ -126,7 +180,7 @@ function Account({ navigation }) {
               style={{marginLeft:5}}
                 name="arrow-back-ios"
                 size={24}
-                color={colors.primary.main}
+                color={colors.dark.main}
               />
             </TouchableOpacity>
           }
@@ -218,58 +272,5 @@ content={
     </View>
   );
 }
-const styles = ScaledSheet.create({
-  root: {
-    backgroundColor:"#000",
-    flex:1
-  },
-  header: {
-    backgroundColor: "#fff",
-    minHeight: "100@vs",
-    marginTop: "-3%",
 
-    padding: "15@s",
-    paddingTop: "36@vs",
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-  },
-  search:{   backgroundColor: "#fff",  marginTop: "-3%",
-  padding: "15@s",
-  paddingTop: "15@vs",
-  borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,},
-    content: {
-      flex: 1,
-      borderTopLeftRadius: 30,
-      borderTopRightRadius: 30,
-      backgroundColor: "#fff",
-      marginTop: 10,
-      paddingTop:30,
-      padding: "15@s",
-      minHeight:"100%"
-    },
-  outlined: {
-    borderWidth: 1,
-    padding: 8,
-    borderRadius: 8,
-    marginTop: 20,
-  },
-  body: {
-    padding: "15@s",
-    marginTop: "10@s",
-  },
-  container: {
-    padding: "13@s",
-    borderRadius: 10,
-  },
-  icon: {
-    padding: 15,
-    backgroundColor: "#e7e7e7",
-    borderRadius: 100,
-    width: 60,
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 export default Account;

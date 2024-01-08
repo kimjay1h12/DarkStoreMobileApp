@@ -9,9 +9,10 @@ import { Alert } from "react-native";
 import { deleteFromCart, getCart, updateCartQuantity } from "../../src/context/actions/cart";
 import { GLobalContext } from "../../src/context";
 import client from "../../api/client";
+import { currencyFormatter } from "../../utility";
 function ItemCard({ name, price, qunatityRequested, image, _id }) {
   const colors = useColors();
-  console.log(qunatityRequested)
+
   const {
     cartDispatch,
     cartState: { loading },
@@ -30,17 +31,45 @@ function ItemCard({ name, price, qunatityRequested, image, _id }) {
   const updateProduct = async (number) => {
 const res = await updateCartQuantity(_id,number,cartDispatch)
   };
-
+  const styles = ScaledSheet.create({
+    root: {
+      padding: "15@s",
+      borderRadius: 15,
+      marginBottom: 10,
+    },
+    right: {
+      flex: 0,
+      flexDirection: "column",
+      justifyContent: "space-between",
+      alignContent: "space-between",
+      width: "80%",
+      height: "75@s",
+    },
+    image: {
+      height: "100%",
+      width: "20%",
+      resizeMode: "contain",
+      borderRadius: 5,
+  
+    },
+    quantityBtn: {
+      height: "25@ms",
+      width: "25@ms",
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 20,
+    },
+  });
   return (
     <TouchableOpacity
-      style={[styles.root, { backgroundColor:"#eee" }]}
+      style={[styles.root, { backgroundColor:colors.white[4] }]}
     >
       <Row gap={7}>
        
         <Image source={{ uri: image[0] }} style={styles.image} />
         <View style={styles.right}>
           <Row justifyContent="space-between" align="flex-start">
-            <View>
+            <View  style={{width:"80%"}}>
               <Typography gutterBottom={5} fontWeight={700}>
                 {name}
               </Typography>
@@ -67,7 +96,7 @@ const res = await updateCartQuantity(_id,number,cartDispatch)
           </Row>
           <Row justifyContent="space-between">
             <View>
-              <Typography>₦ {price}</Typography>
+              <Typography>{currencyFormatter( price)}</Typography>
             </View>
             <TouchableOpacity>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -75,7 +104,7 @@ const res = await updateCartQuantity(_id,number,cartDispatch)
                   disabled={qunatityRequested === 1}
                   onPress={() => {
                     setQuantity1(quantity1 - 1);
-                    updateProduct(quantity1);
+                    updateProduct(quantity1-1);
                   }}
                   style={[
                     styles.quantityBtn,
@@ -102,7 +131,7 @@ const res = await updateCartQuantity(_id,number,cartDispatch)
                 <TouchableOpacity
                   onPress={() => {
                     setQuantity1(quantity1 + 1);
-                    updateProduct(quantity1);
+                    updateProduct(quantity1 +1);
                   }}
                   style={[
                     styles.quantityBtn,
@@ -121,34 +150,6 @@ const res = await updateCartQuantity(_id,number,cartDispatch)
     </TouchableOpacity>
   );
 }
-const styles = ScaledSheet.create({
-  root: {
-    padding: "15@s",
-    borderRadius: 15,
-    marginBottom: 10,
-  },
-  right: {
-    flex: 0,
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignContent: "space-between",
-    width: "80%",
-    height: "75@s",
-  },
-  image: {
-    height: "100%",
-    width: "20%",
-    resizeMode: "contain",
-    borderRadius: 5,
 
-  },
-  quantityBtn: {
-    height: "25@ms",
-    width: "25@ms",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 20,
-  },
-});
 
 export default ItemCard;

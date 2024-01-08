@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, ScrollView, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, ScrollView, TouchableOpacity, View } from "react-native";
 import {
   Button,
   SafeAreaView,
@@ -16,7 +16,7 @@ import ItemCard from "../../components/basket/ItemCard";
 import { ScaledSheet } from "react-native-size-matters";
 import Row from "../../components/custom/Row";
 import { GLobalContext } from "../../src/context";
-import { CHECKOUT } from "../../src/navigation/routes";
+import { CHECKOUT, LOGIN_SCREEN } from "../../src/navigation/routes";
 import { currencyFormatter } from "../../utility";
 
 function Basket({ navigation }) {
@@ -29,9 +29,61 @@ function Basket({ navigation }) {
   } = React.useContext(GLobalContext);
   const colors = useColors();
 
+  const styles = ScaledSheet.create({
+    root: {},
+    container: {
+      padding: "15@s",
+    },
+    price: {
+      marginTop: 30,
+    },
+    voucher: {
+      marginTop: 20,
+    },
+    end: {
+      // position: "absolute",
+      // bottom:0,
+      // left: 0,
+      // right: 0,
+      // padding: 15,
+      marginTop:50
+    
+    },
+    content: {
+      flex: 1,
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+      backgroundColor: colors.white[2],
+      marginTop: 10,
+      paddingTop: 30,
+      padding: "15@s",
+    
 
+  minHeight:"100%"
+      // height: "300%",
+    },
+    icon: {
+      padding: 15,
+      backgroundColor: "#e7e7e7",
+      borderRadius: 100,
+      width: 60,
+      height: 60,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    address: {
+      marginTop: 20,
+      backgroundColor: colors.white[4],
+      borderRadius: 10,
+      padding: 12,
+      flexDirection: "row",
+      gap: 10,
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+  });
   return (
-    <View style={{ flex: 1, backgroundColor: "#000" }}>
+    <View style={{ flex: 1, backgroundColor: "#000",minHeight:Dimensions.get("screen").height }}>
       <Header
         center={
           <Typography style={{ marginTop: 10 }} variant="h4" fontWeight={600}>
@@ -44,7 +96,11 @@ function Basket({ navigation }) {
             <Row gap={10}>
               <Ionicons name="location-outline" size={25} color={"#000"} />
               <Typography fontWeight={600}>
-                {authState?.data?.location?.description}
+                {
+                  authState?.loggedIn?
+                  authState?.data?.location?.description:"Login to your location"
+                }
+           
               </Typography>
             </Row>
             <MaterialIcons
@@ -58,8 +114,8 @@ function Basket({ navigation }) {
       />
 
       {loading && <Spinner fullscreen />}
-      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
+      <ScrollView  showsVerticalScrollIndicator={false}>
           {cartData?.length > 0 ? (
             cartData?.map((cur, i) => <ItemCard key={i} {...cur} />)
           ) : (
@@ -80,64 +136,19 @@ function Basket({ navigation }) {
             </View>
           )}
 
-          <View style={styles.end}>
+<View style={styles.end}>
             <Button
+            onPress={()=>{  navigation.navigate( authState?.loggedIn? CHECKOUT:LOGIN_SCREEN)}}
               disabled={cartData?.length === 0}
               title={`Checkout   ${currencyFormatter(total)}`}
               fullWidth
             />
-          </View>
-        </View>
+          </View>    
       </ScrollView>
+
+        </View>
     </View>
   );
 }
-const styles = ScaledSheet.create({
-  root: {},
-  container: {
-    padding: "15@s",
-  },
-  price: {
-    marginTop: 30,
-  },
-  voucher: {
-    marginTop: 20,
-  },
-  end: {
-    position: "absolute",
-    bottom: "70@s",
-    left: 0,
-    right: 0,
-    padding: 15,
-  },
-  content: {
-    flex: 1,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    backgroundColor: "#fff",
-    marginTop: 10,
-    paddingTop: 30,
-    padding: "15@s",
-    minHeight: "100%",
-  },
-  icon: {
-    padding: 15,
-    backgroundColor: "#e7e7e7",
-    borderRadius: 100,
-    width: 60,
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  address: {
-    marginTop: 20,
-    backgroundColor: "#eee",
-    borderRadius: 10,
-    padding: 12,
-    flexDirection: "row",
-    gap: 10,
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-});
+
 export default Basket;

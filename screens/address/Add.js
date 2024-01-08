@@ -78,14 +78,14 @@ function Add({ navigation, route }) {
     },
   ];
   return (
-    <View style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <FormWrapper behavior="height">
+    <View style={{ flex: 1,backgroundColor:"#000" }}>
+
+        
           <View style={{ flex: 1 }}>
             <Header
               left={
                 <TouchableOpacity
-                  style={{ width: "33.3%" }}
+                  style={styles.icon}
                   onPress={() => {
                     navigation.goBack();
                   }}
@@ -99,17 +99,19 @@ function Add({ navigation, route }) {
               }
               center={
                 <Typography variant="h6" fontWeight={600} align="center">
-                  Add a new Address
+                  Change Address
                 </Typography>
               }
             />
-            <Divider />
-            <View style={{ padding: 15 }}>
-              {address != null && (
-                <Typography gutterBottom={10}>Account Information</Typography>
-              )}
+           
+            <View style={styles.content}>
+            
+          
+                <Typography gutterBottom={10} fontWeight={600} variant="h6" >Change Address</Typography>
+             
 
               <Locator
+              background
                 variant="contained"
                 onLocationSelected={(loc) => {
                   setAddress(loc);
@@ -120,52 +122,12 @@ function Add({ navigation, route }) {
                 gutterBottom={20}
               />
             </View>
-            {address === null ? (
-              <View style={styles.container}>
-                <Image
-                  source={require("../../assets/img/search.png")}
-                  style={styles.image}
-                />
-                <View>
-                  <Typography
-                    align="center"
-                    variant="h6"
-                    fontWeight={700}
-                    gutterBottom={7}
-                  >
-                    Search for your address
-                  </Typography>
-                  <Typography align="center" color="grey">
-                    Enter a building number and street name
-                  </Typography>
-                </View>
-              </View>
-            ) : (
-              <View style={styles.form}>
-                <TextField2
-                  gutterBottom={20}
-                  label="Additional information(optional)"
-                  placeholder="FlatNumber"
-                />
-                <TextField2
-                  label="Address Category"
-                  value={formData.address.label}
-                  options={Category}
-                  onChangeText={(e) => {
-                    setFormData({
-                      ...formData,
-                      address: { ...formData.address, label: e },
-                    });
-                  }}
-                />
-              </View>
-            )}
-          </View>
-        </FormWrapper>
-        {address != null && (
+         
+            
+                    {address != null && (
           <View style={styles.action}>
             <Button
-              title="Save address"
+              title="Change address"
               loading={loading}
               onPress={() => {
                 HandleAddressUpdate();
@@ -174,7 +136,11 @@ function Add({ navigation, route }) {
             />
           </View>
         )}
-      </SafeAreaView>
+        
+          </View>
+       
+
+
     </View>
   );
 }
@@ -197,6 +163,26 @@ const styles = ScaledSheet.create({
     right: 0,
     left: 0,
     padding: "15@s",
+  },
+  content: {
+    flex: 1,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    backgroundColor: "#fff",
+    marginTop: 10,
+    paddingTop: 30,
+    padding: "15@s",
+    minHeight: "100%",
+  },
+  icon: {
+    padding: 10,
+    backgroundColor: "#e7e7e7",
+    borderRadius: 100,
+    paddingLeft: 15,
+    width: 60,
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
   },
   image: {
     height: "100@s",

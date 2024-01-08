@@ -1,3 +1,7 @@
+import {
+  Ionicons,
+  MaterialIcons
+} from "@expo/vector-icons";
 import React, { useContext } from "react";
 import {
   Dimensions,
@@ -6,35 +10,27 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {
-  Button,
-  SafeAreaView,
-  Typography,
-  useColors,
-} from "../../src/Hoddy-ui";
-import Header from "../../components/custom/Header";
-import Divider from "../../components/custom/Divider";
-import {
-  AntDesign,
-  Entypo,
-  MaterialIcons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
-import Row from "../../components/custom/Row";
 import { Paystack, paystackProps } from "react-native-paystack-webview";
 import { ScaledSheet } from "react-native-size-matters";
+import Divider from "../../components/custom/Divider";
+import Header from "../../components/custom/Header";
+import Row from "../../components/custom/Row";
+import {
+  Button,
+  Typography,
+  useColors
+} from "../../src/Hoddy-ui";
 import { GLobalContext } from "../../src/context";
-import AddressCard from "../../components/address/AddressCard";
-import { ADDADDRESS, MYORDERS } from "../../src/navigation/routes";
-import { checlout } from "../../src/context/actions/cart";
-import { checkout } from "../../src/context/actions/orders";
-import { Alert } from "react-native";
+import { checkout, createOrders } from "../../src/context/actions/orders";
+import { currencyFormatter, generateTransactionReference } from "../../utility";
+import { ADDADDRESS } from "../../src/navigation/routes";
 import { PAYSTACK_KEY } from "../../api/config";
-function Checkout({ navigation, route }) {
+import { DeleteAllItemsFromCart } from "../../src/context/actions/cart";
+function Checkout({ navigation, route, data }) {
   const [paymentProps, setPaymentProps] = React.useState(null);
   const paystackWebViewRef = React.useRef(paystackProps.PayStackRef);
-  const { data } = route.params;
-  const { authState, ordersDispatch, ordersState } = useContext(GLobalContext);
+
+  const { authState, ordersDispatch, cartState ,cartDispatch} = useContext(GLobalContext);
   const colors = useColors();
   const [showAddress, setShowAddress] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -44,230 +40,30 @@ function Checkout({ navigation, route }) {
   });
   const CheckOutItem = async () => {
     setLoading(true);
-    const res = await checkout(formData, ordersDispatch);
+    const res = await createOrders({
+   ...cartState.data
+    }, ordersDispatch);
     setPaymentProps(res);
 
     if (res) {
-      paystackWebViewRef?.current?.startTransaction();
+      const res = DeleteAllItemsFromCart(cartDispatch)
+      navigation.navigate("My Orders")
       setLoading(false);
     }
     setLoading(false);
   };
+const IntializeTransaction = async () => {
+  try {
+    const res = generateTransactionReference()
+    setPaymentProps({
+      tx_ref:res
+    })
+    paystackWebViewRef?.current?.startTransaction();
 
-  return (
-    <View style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <Header
-          left={
-            <TouchableOpacity
-              style={{ width: "33.3%" }}
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
-              <MaterialIcons
-                name="arrow-back-ios"
-                size={24}
-                color={colors.primary.main}
-              />
-            </TouchableOpacity>
-          }
-          center={
-            <Typography variant="h6" fontWeight={600} align="center">
-              Checkout
-            </Typography>
-          }
-        />
-        <Divider />
-
-        <Paystack
-          paystackKey={PAYSTACK_KEY}
-          amount={data.totalPrice || 0}
-          billingEmail={authState.data?.email}
-          billingName={authState.data.firstName}
-          billingMobile={authState.data?.phoneNumber}
-          activityIndicatorColor="#555"
-          onCancel={(e) => {}}
-          refNumber={paymentProps?.txInfo?.tx_ref}
-          ref={paystackWebViewRef}
-          onSuccess={async () => {
-            Alert.alert("Success", "ORder created successfully");
-            navigation.navigate(MYORDERS);
-          }}
-        />
-
-        <View style={{ flex: 1, marginTop: 20, paddingHorizontal: 15 }}>
-          <View>
-            <Typography
-              gutterBottom={6}
-              variant="h6"
-              fontWeight={600}
-              color="grey"
-            >
-              Your order
-            </Typography>
-            <Typography gutterBottom={10}>
-              {data?.items?.length} Products
-            </Typography>
-            <Row justifyContent="space-between">
-              <Row gap={10}>
-                {data?.items?.slice(0, 5).map((cur, i) => (
-                  <Image
-                    source={{ uri: cur.itemId?.image }}
-                    key={i}
-                    style={styles.image}
-                  />
-                ))}
-              </Row>
-              {data?.items?.length > 5 && (
-                <Button
-                  size="small"
-                  variant="outlined"
-                  style={{ borderRadius: 2, width: "30%" }}
-                  title={"+ " + (data?.items?.length - 5) + " more"}
-                />
-              )}
-            </Row>
-
-            <Row justifyContent={"space-between"} mt={30}>
-              <Row gap={10}>
-                <MaterialCommunityIcons
-                  name="truck-delivery-outline"
-                  size={24}
-                  color="black"
-                />
-                <TouchableOpacity
-                  onPress={() => {
-                    setShowAddress(!showAddress);
-                  }}
-                >
-                  <Typography variant="h6" fontWeight={600}>
-                    Shipped To
-                  </Typography>
-                </TouchableOpacity>
-              </Row>
-              <TouchableOpacity
-                onPress={() => {
-                  setShowAddress(!showAddress);
-                }}
-              >
-                {showAddress ? (
-                  <MaterialIcons
-                    name="keyboard-arrow-down"
-                    size={30}
-                    color="black"
-                  />
-                ) : (
-                  <MaterialIcons
-                    name="keyboard-arrow-right"
-                    size={30}
-                    color="black"
-                  />
-                )}
-              </TouchableOpacity>
-            </Row>
-            {formData.address != "" && (
-              <View
-                style={{
-                  borderWidth: 0.7,
-                  borderColor: "#aaa",
-                  paddingVertical: 6,
-                  paddingHorizontal: 15,
-                  borderRadius: 10,
-                  marginTop: 10,
-                }}
-              >
-                <AddressCard
-                  showLabel={false}
-                  color={true}
-                  divider={false}
-                  checked={true}
-                  description={formData?.address}
-                  number={authState?.data?.phoneNumber}
-                />
-              </View>
-            )}
-            <ScrollView showsHorizontalScrollIndicator={false}>
-              {showAddress && (
-                <View style={{ marginBottom: 80 }}>
-                  {authState?.data?.address?.map((cur, i) => (
-                    <AddressCard
-                      type={cur.label}
-                      color={true}
-                      divider={false}
-                      label={cur.label}
-                      key={i}
-                      description={cur.description}
-                      number={authState?.data?.phoneNumber}
-                      checked={formData.address === cur.description}
-                      onPress={() => {
-                        setFormData({
-                          ...formData,
-                          address: cur.description,
-                          coordinates: cur.addressCoordinates,
-                        });
-                        setShowAddress(false);
-                      }}
-                    />
-                  ))}
-                  <Button
-                    style={{ marginTop: 20 }}
-                    title="Add New Address"
-                    fullWidth
-                    size="small"
-                    onPress={() => {
-                      navigation.navigate(ADDADDRESS, { ischeckout: true });
-                    }}
-                  />
-                </View>
-              )}
-            </ScrollView>
-          </View>
-          {showAddress === false && (
-            <View style={styles.bottom}>
-              <View>
-                <Row justifyContent={"space-between"}>
-                  <Typography>Subtotal:</Typography>
-                  <Typography> ₦ {data?.originalPrice}</Typography>
-                </Row>
-                <Row mt={15} justifyContent={"space-between"}>
-                  <Typography>Discount:</Typography>
-                  <Typography color="info">- ₦200</Typography>
-                </Row>
-                <Row mt={15} justifyContent={"space-between"}>
-                  <Typography>Delivery Fee:</Typography>
-                  <Typography>₦ 200</Typography>
-                </Row>
-
-                <Divider />
-                <Row mt={15} mb={30} justifyContent={"space-between"}>
-                  <Typography fontWeight={600} variant="h5">
-                    Total: ₦ {data?.totalPrice}
-                  </Typography>
-                  <Button
-                    disabled={
-                      formData.address === "" ||
-                      formData.coordinates.length === 0
-                    }
-                    loading={loading}
-                    title="CheckOut"
-                    variant="outlined"
-                    size="small"
-                    onPress={() => {
-                      CheckOutItem();
-                    }}
-                    end={
-                      <AntDesign name="arrowright" size={24} color="black" />
-                    }
-                  />
-                </Row>
-              </View>
-            </View>
-          )}
-        </View>
-      </SafeAreaView>
-    </View>
-  );
+  } catch (error) {
+    
+    
+  }
 }
 const styles = ScaledSheet.create({
   image: {
@@ -276,12 +72,180 @@ const styles = ScaledSheet.create({
     resizeMode: "contain",
     borderRadius: 15,
   },
+  content: {
+    flex: 1,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    backgroundColor:colors.white[2],
+    marginTop: 10,
+    paddingTop: 30,
+    padding: "15@s",
+    minHeight: "100%",
+  },
+  icon: {
+    padding: 10,
+    backgroundColor: colors.white[4],
+    borderRadius: 100,
+    paddingLeft: 15,
+    width: 60,
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  container: {
+    marginTop: 10,
+    backgroundColor: colors.white[4],
+    borderRadius: 10,
+    marginBottom: 10,
+    paddingHorizontal: 20,
+    padding: 15,
+    flexDirection: "row",
+    gap: 10,
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   bottom: {
     position: "absolute",
-    bottom: 0,
+    bottom: 70,
 
     paddingHorizontal: "15@s",
     width: Dimensions.get("window").width,
   },
 });
+  return (
+    <View style={{ flex: 1, backgroundColor: "#000" }}>
+      <Header
+        left={
+          <TouchableOpacity
+            style={styles.icon}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <MaterialIcons
+              name="arrow-back-ios"
+              size={24}
+              color={colors.primary.main}
+            />
+          </TouchableOpacity>
+        }
+        center={
+          <Typography variant="h6" fontWeight={600} align="center">
+            Checkout
+          </Typography>
+        }
+      />
+
+
+
+      <View style={styles.content}>
+            <Paystack
+          paystackKey={PAYSTACK_KEY}
+          amount={cartState?.data?.total|| 0}
+          billingEmail={authState.data?.email}
+          billingName={authState.data?.name}
+          billingMobile={authState.data?.phoneNumber}
+          activityIndicatorColor="#555"
+          onCancel={(e) => {}}
+          refNumber={paymentProps?.tx_ref}
+          ref={paystackWebViewRef}
+          onSuccess={async () => {
+            CheckOutItem()
+
+          }}
+        /> 
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View>
+            <Typography
+              gutterBottom={6}
+              variant="h6"
+              fontWeight={600}
+              color="grey"
+            >
+              Order Summary
+            </Typography>
+            <Row justifyContent={"space-between"} mt={10}>
+              <Typography>Products Total (2)</Typography>
+              <Typography fontWeight={500}>
+                {currencyFormatter(200000)}
+              </Typography>
+            </Row>
+            <Row justifyContent={"space-between"} mt={15}>
+              <Typography gutterBottom={10}>Delivery Fees</Typography>
+              <Typography fontWeight={500}>
+                {currencyFormatter(2000)}
+              </Typography>
+            </Row>
+
+            <Divider />
+            <Row justifyContent={"space-between"} mb={5} mt={5}>
+              <Typography>Total</Typography>
+              <Typography fontWeight={500}>
+                {currencyFormatter(200000)}
+              </Typography>
+            </Row>
+            <Divider />
+            <Typography
+              gutterBottom={6}
+              variant="h6"
+              fontWeight={600}
+              color="grey"
+              style={{ marginTop: 10 }}
+            >
+              Payment Method
+            </Typography>
+            <View style={styles.container}>
+              <Row gap={10}>
+                <Image
+                  source={require("../../assets/img/paystack.jpeg")}
+                  style={{ height: 30, width:30, resizeMode: "contain" }}
+                />
+                <Typography fontWeight={500} variant="h6">
+                  PayStack
+                </Typography>
+              </Row>
+            </View>
+            <Row justifyContent={"space-between"}>
+            <Typography
+              gutterBottom={6}
+              variant="h6"
+              fontWeight={600}
+              color="grey"
+              style={{ marginTop: 10 }}
+            >
+              Delivery Address
+            </Typography>
+            <TouchableOpacity  onPress={()=>{navigation.navigate(ADDADDRESS)}}>
+              <Typography  fontWeight={600}>Change</Typography>
+            </TouchableOpacity>
+            </Row>
+            <View style={styles.container}>
+            <Row gap={10}>
+              <Ionicons name="location-outline" size={25} color={"#000"} />
+              <Typography fontWeight={600}>
+              {
+                  authState?.loggedIn?
+                  authState?.data?.location?.description:"Login to your location"
+                }
+           
+              </Typography>
+            </Row>
+            <MaterialIcons
+              // style={{marginLeft:5}}
+              name="arrow-forward-ios"
+              size={24}
+              color={"#aaa"}
+            />
+          </View>
+       <View style={{justifyContent:"flex-end",height:"44%"}}>
+<Button title="Place Your Order" onPress={()=>{IntializeTransaction()}} fullWidth/>
+       </View>
+          </View>
+        </ScrollView>
+
+      </View>
+    </View>
+  );
+}
+
 export default Checkout;

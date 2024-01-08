@@ -44,9 +44,9 @@ export const useNavScreenOptions = (type: "stack" | "tab" | "drawer") => {
         // shadowOpacity: 0.1,
         // height: vs(55),
 
-   position:  Platform.OS === "android" ? "":"absolute",
+  //  position:  Platform.OS === "android" ? "":"absolute",
        
-        backgroundColor:"#fff",
+        backgroundColor: colors.white[2],
       },
       tabBarActiveTintColor: "#000",
       tabBarInactiveTintColor: "#aaa",

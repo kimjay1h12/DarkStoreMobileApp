@@ -28,6 +28,15 @@ export const errorMessage = (error) =>
     });
     return groupedData;
   };
+  export function generateTransactionReference() {
+    const prefix = "TXN"; // You can customize the prefix
+    const timestamp = Date.now().toString(36); // Convert the current timestamp to a base-36 string
+    const randomString = Math.random().toString(36).substring(2, 8); // Generate a random string
+  
+    const transactionReference = `${prefix}-${timestamp}-${randomString}`;
+    return transactionReference.toString(); // Ensure that the result is a string
+  }
+  
 export const currencyFormatter = (value, options) => {
   const defaultOptions = {
     significantDigits: 2,

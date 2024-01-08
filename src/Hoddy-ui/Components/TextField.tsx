@@ -304,11 +304,12 @@ export const TextField2: React.FC<TextFieldProps> = ({
     input: {
       fontSize: "14@s",
       flex: 1,
+      color: colors.dark?.main,
 
       alignSelf: "stretch",
       paddingLeft: moderateScale(10),
       paddingRight: moderateScale(10),
-      color: "#333",
+
       zIndex: 10,
 
       // backgroundColor: "#284",
